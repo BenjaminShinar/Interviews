@@ -245,17 +245,3 @@ a short description of how I think this should be answered. I will use C languag
 124. measuring time with candles - 45 minutes
 burn from both sides to measure half time.
 125. flipping bits?
-
-
-
-
-125.
-
-
-
-
-
-
-
-
-
