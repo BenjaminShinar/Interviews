@@ -1,4 +1,4 @@
-#include "../include/coding_questions.h"
+#include "coding_questions.h"
 #include <thread>
 bool FindInArray(const unsigned int *arr, std::size_t arr_size, unsigned int x)
 {

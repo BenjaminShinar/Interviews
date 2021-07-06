@@ -1,4 +1,4 @@
-#include "../include/coding_questions.h"
+#include "coding_questions.h"
 #include <iostream>
 #include <algorithm>
 #include <ctime>
