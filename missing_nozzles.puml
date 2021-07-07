@@ -1,0 +1,37 @@
+
+@startuml missingNozzles
+skinparam ConditionEndStyle hline
+skinparam conditionStyle Inside
+!$manyOf = "actually many of these.not sure how to write it"
+
+title Missing Nozzles
+
+node "Manager" {
+    [manager]
+}
+node "Handler" {
+    [handler] <--> [missing nozzles handler]
+    [missing nozzles handler] <--> [bars missing nozzles handles] 
+    note right
+    $manyOf
+    end note
+
+
+}
+node "Missing Nozzles Helper" {
+
+}
+node "Accessor" {
+    [acessor]
+}
+database "machine database" {
+    [parmas]
+
+}
+[manager] --> [handler]
+[handler] --> [acessor]
+
+[manager] .. [parmas] : use
+[handler] .. [parmas] : use
+[acessor] .. [parmas] : use
+@enduml
