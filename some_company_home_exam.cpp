@@ -232,8 +232,8 @@ enum class DynamicVisit
 std::string doesPathExistDynamicBackwards(const std::vector<std::string> &stringGrid, int maxSteps)
 {
 
-    auto n_rows = static_cast<int>(stringGrid.size());
-    auto n_cols = static_cast<int>(stringGrid.front().size());
+    auto n_rows = stringGrid.size();
+    auto n_cols = stringGrid.front().size();
     if ((n_rows + n_cols - 2) > maxSteps)
     {
         return "no - early exit";
@@ -277,8 +277,8 @@ std::string doesPathExistDynamicBackwards(const std::vector<std::string> &string
 std::string doesPathExistDynamicForwards(const std::vector<std::string> &stringGrid, int maxSteps)
 {
 
-    auto n_rows = static_cast<int>(stringGrid.size());
-    auto n_cols = static_cast<int>(stringGrid.front().size());
+    auto n_rows =stringGrid.size();
+    auto n_cols = stringGrid.front().size();
     if ((n_rows + n_cols - 2) > maxSteps)
     {
         return "no - early exit";

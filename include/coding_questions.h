@@ -6,14 +6,16 @@
 class TimerWithExportedValue
 {
 private:
-    unsigned int *m_ref;
+    std::size_t *m_ref;
     std::chrono::time_point<std::chrono::system_clock> m_created_at;
     std::string m_operation_name;
 
 public:
-    explicit TimerWithExportedValue(unsigned int *exportedValue, std::string &&str = "") : m_ref(exportedValue), m_created_at(std::chrono::system_clock::now()), m_operation_name(str)
+    explicit TimerWithExportedValue(std::size_t *exportedValue, std::string &&str = "") : m_ref(exportedValue), m_created_at(std::chrono::system_clock::now()), m_operation_name(str)
     {
     }
+
+    
     TimerWithExportedValue(const TimerWithExportedValue &other) = delete;
     TimerWithExportedValue &operator=(const TimerWithExportedValue &other) = delete;
 
