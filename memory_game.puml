@@ -1,0 +1,79 @@
+@startuml Memory Game
+!define LIGHTORANGE
+!includeurl https://raw.githubusercontent.com/Drakemor/RedDress-PlantUML/master/style.puml
+
+
+interface IGame {
+    isDone()
+    playTurn()
+    printGame()
+}
+
+Enum Symbol{
+
+}
+note bottom of Symbol: how we indetify serires\nnot actually defined in the the code.
+class Card{
+    +Symbol Symbol
+    +bool Matched
+}
+
+abstract class Player
+{
+    +Name
+    +firstDraw()
+    +nextDraw()
+}
+
+class RandomPlayer extends Player
+{
+    -randomDraw()
+}
+
+
+class GameBoard <<IGame>> implements IGame{
+    {static}+size
+    -m_cards
+    -matches
+    -randomGenerator
+    
+    --
+    #reset()
+    +isValid()
+    +randomCard()
+    +matches()
+    +checkCardStatus()
+    ..
+    -flipCards()
+    -UpdateScoreAndCards()
+    -drawConsecutively()
+}
+
+class ScoreBoard
+{
+    addScores()
+    printScores()
+}
+
+class Game <<IGame>> implements IGame{
+    -GameBoard
+    -ScoreBoard
+    -currentr_round
+    +printScores()
+    +reset()
+}
+
+Game *--GameBoard
+note left of GameBoard: game is made out of gameBoard\n(composition)
+Game *--ScoreBoard
+note left of ScoreBoard: game is made out of scoreBoard\n(composition)
+Game ...Player
+note left of Player: Players are implemented differntly for each game
+
+GameBoard "1..*" ... "0..*" Player
+GameBoard "1..*" o-- "0..*" Card
+note left of GameBoard: gameBoard contains cards\n(Aggregation)
+note left of GameBoard::reset: needs a different access modifier
+note left of RandomPlayer: random player inherits from player
+
+@enduml
