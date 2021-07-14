@@ -27,7 +27,27 @@ notes from reading the book (6th edition, 2015)
 7. rotate matrix in place
     - *not sure, need example*
 8. zero matrix row and columns
+    - *not sure, need example*
 9. is String a rotation of another string using One call to isSubstring
+    - concatenate one string to itself and then call isSubstring
+    - either do this twice and boolean **&&** the results or check the lengths beforehand to avoid getting false positives from isSubstring
 
 
 ### Chapter 2: Linked Lists
+1. Remove Duplicates from unsorted linkedList
+    - with set: similiar to string is unique, create set, and each time try to insert the next node, if it already exists, remove it.
+    - without extra buffer **not implemented**
+2. return Kth to Last
+    k Should be non zero positive (1 for last element)
+    - use recursiveFunction
+    - use iterative style, circular buffer or whatnot
+3. delete middleNode
+    - this is just swap and delete next
+4. partition
+    - using two lists... *I don't have actual nodes in CPP, so i'm not really moving nodes*
+    - in C i could probably keep a running pointer and move nodes around easily.
+5. sum lists of digits
+    - get sum of each list, combine and then create new list
+6. is linkedList a palindrom
+7. determine intersection
+8. find loop start

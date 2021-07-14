@@ -5,6 +5,11 @@
 #include <algorithm>
 #include <cstring>
 #include <optional>
+#include <iterator>
+#include <vector>
+
+#pragma region Chapter 1 - Arrays and String
+
 /**
  * @brief 
  * put each elemnt into the hashSet, check the insertion operator to see if there was already something there
@@ -297,8 +302,173 @@ std::optional<std::string> CompressStringIfNeeded(const std::string &str)
 
     return compressed;
 }
+
 [[nodiscard]] std::string compressString(const std::string &str)
 {
     auto st = CompressStringIfNeeded(str);
     return (st.value_or(str));
 }
+
+[[nodiscard]] static bool isRotationOneSubstringImpl(const std::string &str1, const std::string &str2)
+{
+    std::string expandedString{str1 + str1};
+    return (expandedString.find(str2) != std::string::npos);
+}
+
+[[nodiscard]] bool isRotationOneSubstring(const std::string &str1, const std::string &str2)
+{
+    //we can check the lengths and just do one comparision instead
+    return ((str1.length() == str2.length()) && isRotationOneSubstringImpl(str1, str2));
+}
+#pragma endregion
+
+#pragma region Chapter 2 - Linked Lists
+/**
+ * @brief 
+ * helper function to determine uniqueness
+ * @param list 
+ * @return true 
+ * @return false 
+ */
+[[nodiscard]] bool isListUnique(const std::forward_list<int> &list)
+{
+    std::set<int> uniques;
+    for (const auto &node : list)
+    {
+        auto insertion = uniques.insert(node);
+        if (!insertion.second)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+void removeDuplicatesFromListWithSet(std::forward_list<int> &list)
+{
+    if (list.empty())
+    {
+        return;
+    }
+    auto node{std::begin(list)};
+    std::set<int> uniques;
+    uniques.insert(*node);
+
+    while(node!= std::end(list) && std::next(node) != std::end(list))
+    {
+        auto insertion = uniques.insert(*std::next(node));
+        if (!insertion.second)
+        {
+           list.erase_after(node);
+        }
+        std::advance(node,1);
+    }
+}
+
+void removeDuplicatesFromListNoExtraDS(std::forward_list<int> &list)
+{
+    if (list.empty())
+    {
+        return;
+    }
+}
+[[nodiscard]] std::pair<std::size_t,int> kToLastElementRecursiveImpl(const std::forward_list<int>::const_iterator & it,const std::forward_list<int>::const_iterator & end_it, int kElement)
+{
+    if(std::next(it) ==end_it)
+    {
+        return {1,*it};
+    }
+    
+    auto r = kToLastElementRecursiveImpl(std::next(it),end_it,kElement);
+    if (r.first == kElement)
+    {
+        return r;
+    }
+    else
+    {
+        return {r.first+1,*it};
+    }
+}
+
+[[nodiscard]] int kToLastElementRecursive(const std::forward_list<int> & list, int kElement)
+{
+    auto pair = kToLastElementRecursiveImpl(std::begin(list), std::end(list),kElement);
+    return pair.second;
+}
+
+[[nodiscard]] int kToLastElementIterative(const std::forward_list<int> & list, int kElement)
+{
+
+    std::vector<int> v(kElement);
+    auto node = std::begin(list);
+    int elementNum{0};
+    while (node!= std::end(list))
+    {
+        v[(elementNum++)% kElement]=*node;
+        std::advance(node,1);
+    }
+    auto index = (elementNum -kElement) % kElement;
+    return v[index];
+}
+void deleteNodeFromMiddleOfList(std::forward_list<int> & list,std::forward_list<int>::iterator & node)
+{
+    auto nextNode =node;
+    *node = *(++nextNode);
+    list.erase_after(node);
+}
+
+void partitionListAroundValue(std::forward_list<int> & list,int x)
+{
+      std::forward_list<int> above;
+      std::forward_list<int> below;
+        while (!list.empty())
+        {
+            auto node = std::begin(list);
+            int value = *node;
+            if (value<=x)
+            {
+                below.push_front(value);
+            }
+            else
+            {
+                above.push_front(value);
+            }
+            list.pop_front();
+        }
+
+      above.splice_after(above.before_begin(),below);
+      list=std::move(above);
+      //list.splice_after(std::begin(list),below);
+}
+
+[[nodiscard]] int sumListValue(const std::forward_list<int> & list)
+{
+    int sum{0};
+    int power{1};
+    auto node = std::begin(list);
+    while (node != std::end(list))
+    {
+        sum += (*node)*power;
+        power *=10;
+        ++node;
+    }
+    return sum;
+}
+[[nodiscard]] std::forward_list<int> sumListsValues(const std::forward_list<int> & list1,const std::forward_list<int> & list2)
+{
+    int sum1{sumListValue(list1)};
+    int sum2{sumListValue(list2)};
+    int summed = sum1+sum2;
+    std::forward_list<int> result;
+    auto it=result.before_begin();
+    while (summed !=0)
+    {
+        auto value = summed %10;
+        it= result.insert_after(it,value);
+        summed = (summed -value)/10;
+    }
+    return result;
+}
+
+
+#pragma endregion
