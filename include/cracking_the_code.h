@@ -1,5 +1,7 @@
 #include <string>
 #include <forward_list>
+#include <vector>
+#include <stack>
 
 [[nodiscard]] bool isUniqueWithSet(const std::string & str);
 [[nodiscard]] bool isUniqueNoExtraDS(const std::string & str);
@@ -21,6 +23,8 @@ void UrlifyFromEnd(char* str,std::size_t n);
 
 [[nodiscard]] bool isRotationOneSubstring(const std::string & str1,const std::string & str2);
 
+void rotateMatrix90Deg(std::vector<std::vector<int>> & matrix);
+
 [[nodiscard]] bool isListUnique(const std::forward_list<int> & list);
 void removeDuplicatesFromListWithSet(std::forward_list<int> & list);
 void removeDuplicatesFromListNoExtraDS(std::forward_list<int> &list);
@@ -33,3 +37,29 @@ void partitionListAroundValue(std::forward_list<int> & list,int x);
 [[nodiscard]] std::forward_list<int>::const_iterator areListsIntersecting(const std::forward_list<int> & list1,const std::forward_list<int> & list2);
 [[nodiscard]] std::forward_list<int>::const_iterator isListLooping(const std::forward_list<int> & list);
 
+void sortStackWithAnother(std::stack<int> &unsortedStack);
+
+class StackWithMin
+{
+    public:
+    int top() const;
+    void pop();
+    void push(int v);
+    int min() const;
+    static StackWithMin Create(std::initializer_list<int> values);
+    private:
+    std::stack<int> values_stack;
+    std::stack<int> min_values_stack;
+};
+class SelfRegulatingStack
+{
+    public:
+    int CountStacks() const;
+    int top() const;
+    void pop();
+    void push(int v);
+    static SelfRegulatingStack Create(std::size_t stackMaxSize,std::initializer_list<int> values);
+    private:
+    std::size_t StackMaxSize{5};
+    std::stack<std::stack<int>> stack_of_stacks;
+};

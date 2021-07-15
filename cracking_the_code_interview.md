@@ -48,6 +48,26 @@ notes from reading the book (6th edition, 2015)
     - in C i could probably keep a running pointer and move nodes around easily.
 5. sum lists of digits
     - get sum of each list, combine and then create new list
-6. is linkedList a palindrom
-7. determine intersection
-8. find loop start
+6. is linkedList a palindrome
+    - the hints are to reverse the list, use a stack,try recursion
+    - stack works - jump to the mid point (need length) and start inserting to stack, then iterate with from the head and compare to stack. this is basically reversing half the list on somewhere else.
+7. determine intersection **not implemented**
+    - use lengths to make sure nodes are the distance from the end, and then advance them and compare. *I don't have actual nodes in CPP, so i'm not going to do this*
+    - might be weird in cpp becuase nodes aren't necesarly pointing to null, and have a unique end position?
+    - maybe its possible to early exis when calculatin lengths.
+8. find loop start **not implemented**
+    - -make slow and fast runners, their meeting point is the intersection. *I don't have actual nodes in CPP, so i'm not going to do this*
+
+### Chapter 3: Stacks and Queues
+1. three stacks in one array? **not implemented**
+    - maybe like linked list? each element holds the previous element location, and we store the top and update it at push(),pop()?
+2. stack that provides O(1) min() operation
+    - use two stacks, one for values, other for min values
+3. stack of plates: self regulating stacks
+    - have a stack of stacks that adds new stack at push (if needed) and removes at pop(if needed). just be careful not to to top() an empty stack.
+    - add 'pop at index' : use vector or lineked list of stacks instead of stack of stacks.
+4. queue via two stack **not implemented**
+5. sort stack (with other stack) **not implemented**
+    - feels like hannoi towers.
+6. animal strucutre cats and dogs **not implemented**
+

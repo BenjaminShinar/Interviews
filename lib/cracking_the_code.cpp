@@ -7,7 +7,8 @@
 #include <optional>
 #include <iterator>
 #include <vector>
-
+#include <stack>
+#include <utility>
 #pragma region Chapter 1 - Arrays and String
 
 /**
@@ -320,9 +321,35 @@ std::optional<std::string> CompressStringIfNeeded(const std::string &str)
     //we can check the lengths and just do one comparision instead
     return ((str1.length() == str2.length()) && isRotationOneSubstringImpl(str1, str2));
 }
+
+/**
+ * @brief 
+ * rotate matrix N by N by 90 degrees.
+ * @param matrix 
+ */
+void rotateMatrix90Deg(std::vector<std::vector<int>> & matrix)
+{
+    const auto N = matrix.size();
+    auto nextPosition = [&N](int r, int c){return std::make_pair(N-c,N-r);};
+    
+}
+
 #pragma endregion
 
 #pragma region Chapter 2 - Linked Lists
+
+[[nodiscard]] std::size_t listLength(const std::forward_list<int> &list)
+{
+    std::size_t len{0};
+    auto node = std::begin(list);
+    while (node != std::end(list))
+    {
+        ++len;
+        ++node;
+    }
+    return len;
+}
+
 /**
  * @brief 
  * helper function to determine uniqueness
@@ -354,14 +381,14 @@ void removeDuplicatesFromListWithSet(std::forward_list<int> &list)
     std::set<int> uniques;
     uniques.insert(*node);
 
-    while(node!= std::end(list) && std::next(node) != std::end(list))
+    while (node != std::end(list) && std::next(node) != std::end(list))
     {
         auto insertion = uniques.insert(*std::next(node));
         if (!insertion.second)
         {
-           list.erase_after(node);
+            list.erase_after(node);
         }
-        std::advance(node,1);
+        std::advance(node, 1);
     }
 }
 
@@ -372,103 +399,260 @@ void removeDuplicatesFromListNoExtraDS(std::forward_list<int> &list)
         return;
     }
 }
-[[nodiscard]] std::pair<std::size_t,int> kToLastElementRecursiveImpl(const std::forward_list<int>::const_iterator & it,const std::forward_list<int>::const_iterator & end_it, int kElement)
+[[nodiscard]] std::pair<std::size_t, int> kToLastElementRecursiveImpl(const std::forward_list<int>::const_iterator &it, const std::forward_list<int>::const_iterator &end_it, int kElement)
 {
-    if(std::next(it) ==end_it)
+    if (std::next(it) == end_it)
     {
-        return {1,*it};
+        return {1, *it};
     }
-    
-    auto r = kToLastElementRecursiveImpl(std::next(it),end_it,kElement);
+
+    auto r = kToLastElementRecursiveImpl(std::next(it), end_it, kElement);
     if (r.first == kElement)
     {
         return r;
     }
     else
     {
-        return {r.first+1,*it};
+        return {r.first + 1, *it};
     }
 }
 
-[[nodiscard]] int kToLastElementRecursive(const std::forward_list<int> & list, int kElement)
+[[nodiscard]] int kToLastElementRecursive(const std::forward_list<int> &list, int kElement)
 {
-    auto pair = kToLastElementRecursiveImpl(std::begin(list), std::end(list),kElement);
+    auto pair = kToLastElementRecursiveImpl(std::begin(list), std::end(list), kElement);
     return pair.second;
 }
 
-[[nodiscard]] int kToLastElementIterative(const std::forward_list<int> & list, int kElement)
+[[nodiscard]] int kToLastElementIterative(const std::forward_list<int> &list, int kElement)
 {
 
     std::vector<int> v(kElement);
     auto node = std::begin(list);
     int elementNum{0};
-    while (node!= std::end(list))
+    while (node != std::end(list))
     {
-        v[(elementNum++)% kElement]=*node;
-        std::advance(node,1);
+        v[(elementNum++) % kElement] = *node;
+        std::advance(node, 1);
     }
-    auto index = (elementNum -kElement) % kElement;
+    auto index = (elementNum - kElement) % kElement;
     return v[index];
 }
-void deleteNodeFromMiddleOfList(std::forward_list<int> & list,std::forward_list<int>::iterator & node)
+void deleteNodeFromMiddleOfList(std::forward_list<int> &list, std::forward_list<int>::iterator &node)
 {
-    auto nextNode =node;
+    auto nextNode = node;
     *node = *(++nextNode);
     list.erase_after(node);
 }
 
-void partitionListAroundValue(std::forward_list<int> & list,int x)
+void partitionListAroundValue(std::forward_list<int> &list, int x)
 {
-      std::forward_list<int> above;
-      std::forward_list<int> below;
-        while (!list.empty())
+    std::forward_list<int> above;
+    std::forward_list<int> below;
+    while (!list.empty())
+    {
+        auto node = std::begin(list);
+        int value = *node;
+        if (value <= x)
         {
-            auto node = std::begin(list);
-            int value = *node;
-            if (value<=x)
-            {
-                below.push_front(value);
-            }
-            else
-            {
-                above.push_front(value);
-            }
-            list.pop_front();
+            below.push_front(value);
         }
+        else
+        {
+            above.push_front(value);
+        }
+        list.pop_front();
+    }
 
-      above.splice_after(above.before_begin(),below);
-      list=std::move(above);
-      //list.splice_after(std::begin(list),below);
+    above.splice_after(above.before_begin(), below);
+    list = std::move(above);
+    //list.splice_after(std::begin(list),below);
 }
 
-[[nodiscard]] int sumListValue(const std::forward_list<int> & list)
+[[nodiscard]] int sumListValue(const std::forward_list<int> &list)
 {
     int sum{0};
     int power{1};
     auto node = std::begin(list);
     while (node != std::end(list))
     {
-        sum += (*node)*power;
-        power *=10;
+        sum += (*node) * power;
+        power *= 10;
         ++node;
     }
     return sum;
 }
-[[nodiscard]] std::forward_list<int> sumListsValues(const std::forward_list<int> & list1,const std::forward_list<int> & list2)
+[[nodiscard]] std::forward_list<int> sumListsValues(const std::forward_list<int> &list1, const std::forward_list<int> &list2)
 {
     int sum1{sumListValue(list1)};
     int sum2{sumListValue(list2)};
-    int summed = sum1+sum2;
+    int summed = sum1 + sum2;
     std::forward_list<int> result;
-    auto it=result.before_begin();
-    while (summed !=0)
+    auto it = result.before_begin();
+    while (summed != 0)
     {
-        auto value = summed %10;
-        it= result.insert_after(it,value);
-        summed = (summed -value)/10;
+        auto value = summed % 10;
+        it = result.insert_after(it, value);
+        summed = (summed - value) / 10;
     }
     return result;
 }
 
+[[nodiscard]] bool isListPalindrome(const std::forward_list<int> &list)
+{
+    auto len = listLength(list);
+    if (len == 0)
+    {
+        return true;
+    }
+    auto mid = std::begin(list);
+    std::advance(mid, len / 2);
+    std::stack<int> stk;
+    while (mid != std::end(list))
+    {
+        stk.push(*mid);
+        mid++;
+    }
+    auto node = std::begin(list);
+    while (!stk.empty())
+    {
+        if (*node != stk.top())
+        {
+            return false;
+        }
+        stk.pop();
+        ++node;
+    }
+    return true;
+}
 
+[[nodiscard]] std::forward_list<int>::const_iterator areListsIntersecting(const std::forward_list<int> &list1, const std::forward_list<int> &list2)
+{
+
+    auto len1 = listLength(list1);
+    auto len2 = listLength(list2);
+    auto node1 = std::begin(list1);
+    auto node2 = std::begin(list2);
+    if (len1 > len2)
+    {
+        std::advance(node1, len1 - len2);
+    }
+    else if (len2 > len1)
+    {
+        std::advance(node2, len2 - len1);
+    }
+    //we just need to check one of them...
+    while (node1 != node2 && node1 != std::end(list1))
+    {
+        ++node1;
+        ++node2;
+    }
+    return node1;
+}
+[[nodiscard]] std::forward_list<int>::const_iterator isListLooping(const std::forward_list<int> &list);
+
+#pragma endregion
+
+#pragma region Chapter 3 - stacks and queues
+
+int StackWithMin::top() const
+{
+    return values_stack.top();
+}
+void StackWithMin::pop()
+{
+    values_stack.pop();
+    min_values_stack.pop();
+}
+void StackWithMin::push(int v)
+{
+    values_stack.push(v);
+    if (min_values_stack.empty() || v < min())
+    {
+        min_values_stack.push(v);
+    }
+    else
+    {
+        min_values_stack.push(min());
+    }
+}
+int StackWithMin::min() const
+{
+    return min_values_stack.top();
+}
+StackWithMin StackWithMin::Create(std::initializer_list<int> values)
+{
+    StackWithMin s;
+    for (auto v : values)
+    {
+        s.push(v);
+    }
+    return s;
+}
+
+int SelfRegulatingStack::CountStacks() const
+{
+    return stack_of_stacks.size();
+}
+
+int SelfRegulatingStack::top() const
+{
+    return stack_of_stacks.top().top();
+}
+void SelfRegulatingStack::pop()
+{
+    if (stack_of_stacks.empty())
+        return;
+    if (stack_of_stacks.top().empty())
+    {
+        stack_of_stacks.pop();
+        pop();
+    }
+    else
+    {
+        stack_of_stacks.top().pop();
+        if (stack_of_stacks.top().empty())
+        {
+            stack_of_stacks.pop();
+        }
+    }
+}
+
+void SelfRegulatingStack::push(int v)
+{
+    if (stack_of_stacks.empty() || stack_of_stacks.top().size() >= StackMaxSize)
+    {
+        stack_of_stacks.push({});
+    }
+    stack_of_stacks.top().push(v);
+}
+
+SelfRegulatingStack SelfRegulatingStack::Create(std::size_t size, std::initializer_list<int> values)
+{
+    SelfRegulatingStack s;
+    s.StackMaxSize = size;
+    for (auto v : values)
+    {
+        s.push(v);
+    }
+    return s;
+}
+
+void sortStackWithAnother(std::stack<int> &unsortedStack)
+{
+    if (unsortedStack.empty() || unsortedStack.size()==1) return;
+    auto max = unsortedStack.top();
+    unsortedStack.pop();
+    std::stack<int> otherStack;
+    while (!unsortedStack.empty())
+    {
+        auto topElem= unsortedStack.top();
+        unsortedStack.pop();
+        if (max> topElem)
+        {
+            std::swap(topElem,max);
+        }
+        otherStack.push(topElem);
+    }
+
+}
 #pragma endregion

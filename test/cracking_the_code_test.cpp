@@ -138,6 +138,19 @@ namespace arraysAndString
         combinedIsSubstringRotationFoo("waterbottle", "erbottlewat");
         combinedIsSubstringRotationFoo("waterbottle", "water");
     }
+
+    void rotateMatrixTest()
+    {
+        using v_int= std::vector<std::vector<int>>;
+        auto foo =[](v_int && m,const v_int & e)
+        {
+                std::cout << std::boolalpha;
+           rotateMatrix90Deg(m);
+            std::cout << "is matrix rotated properly: "<< (e==m);
+            std::cout << std::noboolalpha << '\n';
+        };
+        foo(std::move(v_int{{1,2,3},{4,5,6},{7,8,9}}),{{7,4,1},{8,5,2},{9,6,3}});
+    }
 }
 #pragma endregion
 
@@ -147,10 +160,12 @@ namespace linkedLists
 {
     using sll = std::forward_list<int>;
 
-    std::ostream& operator<< (std::ostream& os, sll const& l) {
-    for (int e : l) os << e << ' ';
-    return os;
-}
+    std::ostream &operator<<(std::ostream &os, sll const &l)
+    {
+        for (int e : l)
+            os << e << ' ';
+        return os;
+    }
     void removeDuplicateslinkedList()
     {
         auto foo = [](const sll &list)
@@ -175,8 +190,8 @@ namespace linkedLists
     {
         auto foo = [](const sll &list, std::size_t k, int expected)
         {
-            auto recursiveK{kToLastElementRecursive(list,k)};
-            auto iterativeK{kToLastElementIterative(list,k)};
+            auto recursiveK{kToLastElementRecursive(list, k)};
+            auto iterativeK{kToLastElementIterative(list, k)};
             std::cout << std::boolalpha;
             std::cout << "element " << k << " is ";
             std::cout << " recursive " << recursiveK;
@@ -189,55 +204,66 @@ namespace linkedLists
         foo({1, 3, 2, 4}, 1, 4);
         foo({1, 3, 2, 4}, 2, 2);
         foo({1, 3, 2, 4}, 3, 3);
-        foo({1,7,7,7,3, 2, 4}, 3, 3);
-        foo({1,7,7,7,3, 2, 4}, 4, 7);
+        foo({1, 7, 7, 7, 3, 2, 4}, 3, 3);
+        foo({1, 7, 7, 7, 3, 2, 4}, 4, 7);
     }
 
     void deleteMiddleNode()
     {
-        auto foo = [](const sll &list1,int indexToRemove,const sll &list2)
+        auto foo = [](const sll &list1, int indexToRemove, const sll &list2)
         {
             sll copy{list1};
             auto node = std::begin(copy);
-            std::advance(node,indexToRemove);
-            deleteNodeFromMiddleOfList(copy,node);
+            std::advance(node, indexToRemove);
+            deleteNodeFromMiddleOfList(copy, node);
             std::cout << std::boolalpha;
-            std::cout << "lists are equal? " << (copy==list2);
+            std::cout << "lists are equal? " << (copy == list2);
             std::cout << std::noboolalpha << '\n';
         };
-           foo({1, 3, 2, 4}, 1, {1, 2, 4});
-           foo({1,7,5,6, 3, 2, 4}, 3, {1,7,5, 3, 2, 4});
-           
+        foo({1, 3, 2, 4}, 1, {1, 2, 4});
+        foo({1, 7, 5, 6, 3, 2, 4}, 3, {1, 7, 5, 3, 2, 4});
     }
     void partitionAroundValue()
     {
-        auto foo = [](const sll &list1,int partitionValue)
+        auto foo = [](const sll &list1, int partitionValue)
         {
             sll copy{list1};
-            partitionListAroundValue(copy,partitionValue);
+            partitionListAroundValue(copy, partitionValue);
             std::cout << std::boolalpha;
             std::cout << copy;
             std::cout << std::noboolalpha << '\n';
         };
-           foo({1, 3,1, 3,1, 3,1, 3,1, 3,1, 3,1, 3,1, 3,4,0}, 2);
-           foo({7,7,7,7,1,1,1,3}, 3);
+        foo({1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 4, 0}, 2);
+        foo({7, 7, 7, 7, 1, 1, 1, 3}, 3);
     }
     void sumListsOfDigits()
     {
-            auto foo = [](const sll &list1,const sll &list2,const sll &expected)
+        auto foo = [](const sll &list1, const sll &list2, const sll &expected)
         {
-            auto sum{sumListsValues(list1,list2)};
+            auto sum{sumListsValues(list1, list2)};
             std::cout << std::boolalpha;
-            std::cout << "sum of " << list1 << " and " << list2 << " is " << sum << " as expected?: "<< (sum==expected);
+            std::cout << "sum of " << list1 << " and " << list2 << " is " << sum << " as expected?: " << (sum == expected);
             std::cout << std::noboolalpha << '\n';
         };
-        foo({7,1,6},{5,9,2},{2,1,9});
-        foo({8,9,9},{1},{9,9,9});
-        foo({9,9},{1,0,0},{0,0,1});
-
+        foo({7, 1, 6}, {5, 9, 2}, {2, 1, 9});
+        foo({8, 9, 9}, {1}, {9, 9, 9});
+        foo({9, 9}, {1, 0, 0}, {0, 0, 1});
     }
     void isPalindromeLinkedList()
     {
+        auto foo = [](const sll &list1)
+        {
+            std::cout << std::boolalpha;
+            std::cout << list1 << " is a palindrome? :" << isListPalindrome(list1);
+            std::cout << std::noboolalpha << '\n';
+        };
+        foo({});
+        foo({1});
+        foo({3, 3});
+        foo({1, 2, 1});
+        foo({5, 4, 4, 5});
+        foo({1, 2, 3});
+        foo({7, 5, 2, 7});
     }
     void isintersectionLL()
     {
@@ -245,6 +271,46 @@ namespace linkedLists
     void findLoopStart()
     {
     }
+}
+#pragma endregion
+
+#pragma region Chapter 3 - Stacks and queues
+namespace stacksAndQueues
+{
+
+    void TestMinStack()
+    {
+
+        auto foo = [](StackWithMin &&stack, int min1, int min2)
+        {
+            std::cout << std::boolalpha;
+            std::cout << "first min " << stack.min() << " is correct: " << (stack.min() == min1) << '\n';
+            stack.pop();
+            std::cout << "second min " << stack.min() << " is correct: " << (stack.min() == min2);
+            std::cout << std::noboolalpha << '\n';
+        };
+        foo(std::move(StackWithMin::Create({5, 6, 7, 4, 9, 8, 3})), 3, 4);
+        foo(std::move(StackWithMin::Create({1,5, 6, 7, 4, 9, 8, 3})), 1,1);
+
+    }
+
+    void TestSelfRegulatingStack()
+    {
+        auto stack = SelfRegulatingStack::Create(2,{1,2,3,4,5,6,7});
+        std::cout << std::boolalpha;
+        std::cout <<" stacks:" <<stack.CountStacks() << " top " << stack.top() ;
+        stack.pop();
+        stack.pop();
+        std::cout <<" stacks:" <<stack.CountStacks() << " top " << stack.top() ;
+        std::cout << std::noboolalpha << '\n';
+
+    }
+    //     1. three stacks in one array?
+    // 3. stack of plates: self regulating stacks
+    //     - add 'pop at index'
+    // 4. queue via stack
+    // 5. sort stack (with other stack)
+    // 6. animal strucutre cats and dogs
 }
 #pragma endregion
 int main()
@@ -258,6 +324,7 @@ int main()
         //isOneEditAway();
         //isCompressedDecompressedString();
         //isSubstringRotation();
+        rotateMatrixTest();
     }
 
     {
@@ -266,6 +333,19 @@ int main()
         //kthtoLast();
         //deleteMiddleNode();
         //partitionAroundValue();
-        sumListsOfDigits();
+        //sumListsOfDigits();
+        //isPalindromeLinkedList();
     }
+
+    {
+        using namespace stacksAndQueues;
+        //TestMinStack();
+        //TestSelfRegulatingStack();
+    }
+
+    // std::vector<std::vector<int>> a{{1,2},{3,4}};
+    // std::vector<std::vector<int>> b{{1,2},{3,4}};
+    // std::vector<std::vector<int>> c{{1,1},{3,4}};
+    // std::cout << "a ==b ? :" << (a==b) <<'\n';
+    // std::cout << "a ==c ? :" << (a==c) <<'\n';
 }
