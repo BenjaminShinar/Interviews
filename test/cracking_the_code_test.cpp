@@ -141,23 +141,24 @@ namespace arraysAndString
 
     void rotateMatrixTest()
     {
-        using v_int= std::vector<std::vector<int>>;
-        auto foo =[](v_int && m,const v_int & e)
+        using v_int = std::vector<std::vector<int>>;
+        auto foo = [](v_int &&m, const v_int &e)
         {
-                std::cout << std::boolalpha;
-           rotateMatrix90Deg(m);
-            std::cout << "is matrix rotated properly: "<< (e==m);
+            std::cout << std::boolalpha;
+            rotateMatrix90Deg(m);
+            std::cout << "is matrix rotated properly: " << (e == m);
             std::cout << std::noboolalpha << '\n';
         };
-        foo(std::move(v_int{{1,2},{3,4}}),{{3,1},{4,2}});
-        foo(std::move(v_int{{1,2,3},{4,5,6},{7,8,9}}),{{7,4,1},{8,5,2},{9,6,3}});
-        foo(std::move(v_int{{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}}),
-        {{13,9,5,1},{14,10,6,2},{15,11,7,3},{16,12,8,4}});
-        // foo(std::move(v_int{{5,1,9,11},{2,4,8,10},{13,3,6,7},{15,14,12,16}}),
-        // {{15,13,2,5},{14,3,4,1},{12,6,8,9},{16,7,10,11}});
+        foo(std::move(v_int{{1}}), {{1}});
+        foo(std::move(v_int{{1, 2}, {3, 4}}), {{3, 1}, {4, 2}});
+        foo(std::move(v_int{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}), {{7, 4, 1}, {8, 5, 2}, {9, 6, 3}});
+        foo(std::move(v_int{{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 16}}),
+            {{13, 9, 5, 1}, {14, 10, 6, 2}, {15, 11, 7, 3}, {16, 12, 8, 4}});
+        foo(std::move(v_int{{5, 1, 9, 11}, {2, 4, 8, 10}, {13, 3, 6, 7}, {15, 14, 12, 16}}),
+            {{15, 13, 2, 5}, {14, 3, 4, 1}, {12, 6, 8, 9}, {16, 7, 10, 11}});
 
-        // foo(std::move(v_int{{1,2,3,4,5},{6,7,8,9,10},{11,12,13,14,15},{16,17,18,19,20},{21,22,23,24,25}}),
-        // {{21,16,11,6,1},{22,17,12,7,2},{23,18,13,8,3},{24,19,14,9,4},{25,20,15,10,5}});
+        foo(std::move(v_int{{1, 2, 3, 4, 5}, {6, 7, 8, 9, 10}, {11, 12, 13, 14, 15}, {16, 17, 18, 19, 20}, {21, 22, 23, 24, 25}}),
+            {{21, 16, 11, 6, 1}, {22, 17, 12, 7, 2}, {23, 18, 13, 8, 3}, {24, 19, 14, 9, 4}, {25, 20, 15, 10, 5}});
     }
 }
 #pragma endregion
@@ -298,27 +299,72 @@ namespace stacksAndQueues
             std::cout << std::noboolalpha << '\n';
         };
         foo(std::move(StackWithMin::Create({5, 6, 7, 4, 9, 8, 3})), 3, 4);
-        foo(std::move(StackWithMin::Create({1,5, 6, 7, 4, 9, 8, 3})), 1,1);
-
+        foo(std::move(StackWithMin::Create({1, 5, 6, 7, 4, 9, 8, 3})), 1, 1);
     }
 
     void TestSelfRegulatingStack()
     {
-        auto stack = SelfRegulatingStack::Create(2,{1,2,3,4,5,6,7});
+        auto stack = SelfRegulatingStack::Create(2, {1, 2, 3, 4, 5, 6, 7});
         std::cout << std::boolalpha;
-        std::cout <<" stacks:" <<stack.CountStacks() << " top " << stack.top() ;
+        std::cout << " stacks:" << stack.CountStacks() << " top " << stack.top();
         stack.pop();
         stack.pop();
-        std::cout <<" stacks:" <<stack.CountStacks() << " top " << stack.top() ;
+        std::cout << " stacks:" << stack.CountStacks() << " top " << stack.top();
         std::cout << std::noboolalpha << '\n';
-
     }
     //     1. three stacks in one array?
     // 3. stack of plates: self regulating stacks
     //     - add 'pop at index'
     // 4. queue via stack
+
+    void TestMyQueue()
+    {
+        MyQueue q;
+        q.enqueueInt(1);
+        q.enqueueInt(2);
+        std::cout << "1 in : " << q.dequeInt() << '\n';
+        std::cout << "2 in : " << q.dequeInt() << '\n';
+    }
     // 5. sort stack (with other stack)
-    // 6. animal strucutre cats and dogs
+
+    void TestAnimalStructure()
+    {
+        AnimalSheleter aShelter;
+        aShelter.Enque({"doggo1", AnimalSheleter::AnimalType::DOG});
+        aShelter.Enque({"catto1", AnimalSheleter::AnimalType::CAT});
+        aShelter.Enque({"catto2", AnimalSheleter::AnimalType::CAT});
+        aShelter.Enque({"doggo2", AnimalSheleter::AnimalType::DOG});
+        auto an1 = aShelter.DequeDog();
+        std::cout << "1 animal: " << an1.value().name << '\n';
+        auto an2 = aShelter.DequeCat();
+        std::cout << "2 animal: " << an2.value().name << '\n';
+        auto an3 = aShelter.DequeAny();
+        std::cout << "3 animal: " << an3.value().name << '\n';
+    }
+}
+#pragma endregion
+
+
+#pragma region Chapter 5 - Bit Manipulation
+namespace bitManip
+{
+void TestBitsToFlip()
+{
+    auto foo =[](int n1, int n2, int e)
+    {
+            std::cout << std::boolalpha;
+            auto flipped = bitsToflip(n1,n2);
+            std::cout << n1 << " to " << n2 << " required " << flipped << " flips, as expected? " << (e == flipped);
+            std::cout << std::noboolalpha << '\n';
+    };
+    foo(29,15,2);
+    foo(28,14,2);
+    foo(0b1000,0b1101,2);
+    foo(0b1010,0b1001,2);
+    foo(0b1010,0b1011,1);
+    foo(0b1010,0b1010,0);
+}
+
 }
 #pragma endregion
 int main()
@@ -332,7 +378,7 @@ int main()
         //isOneEditAway();
         //isCompressedDecompressedString();
         //isSubstringRotation();
-        rotateMatrixTest();
+        //rotateMatrixTest();
     }
 
     {
@@ -349,7 +395,15 @@ int main()
         using namespace stacksAndQueues;
         //TestMinStack();
         //TestSelfRegulatingStack();
+        //TestAnimalStructure();
+        //TestMyQueue();
     }
+
+{
+    using namespace bitManip;
+    TestBitsToFlip();
+
+}
 
     // std::vector<std::vector<int>> a{{1,2},{3,4}};
     // std::vector<std::vector<int>> b{{1,2},{3,4}};

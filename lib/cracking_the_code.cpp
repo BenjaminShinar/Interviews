@@ -9,6 +9,9 @@
 #include <vector>
 #include <stack>
 #include <utility>
+#include <ctime>
+#include <chrono>
+#include <thread>
 #pragma region Chapter 1 - Arrays and String
 
 /**
@@ -322,30 +325,37 @@ std::optional<std::string> CompressStringIfNeeded(const std::string &str)
     return ((str1.length() == str2.length()) && isRotationOneSubstringImpl(str1, str2));
 }
 
-
-[[nodiscard]] std::pair<unsigned int, unsigned int> GetNextLocation(const std::size_t N,std::pair<unsigned int, unsigned int> current)
+[[nodiscard]] std::pair<unsigned int, unsigned int> GetNextLocation(const std::size_t N, std::pair<unsigned int, unsigned int> current)
 {
-    return std::make_pair(current.second,N-current.first -1);
+    return std::make_pair(current.second, N - current.first - 1);
 }
 /**
  * @brief 
  * rotate matrix N by N by 90 degrees.
+ * we start in the outer rows, and then move to the inner sqaures
+ * like rubix cube...
  * @param matrix 
  */
 void rotateMatrix90Deg(std::vector<std::vector<int>> &matrix)
 {
     const auto N = matrix.size();
-    for (auto i = 0u; i < N-1; ++i)
+    const auto SquareSize = N;
+    auto row = 0u;
+    while (row < N / 2)
     {
-        auto startLocation = std::make_pair(0u, i);
-        auto current = startLocation;
-        auto next = GetNextLocation(N,current);
-        while (next != startLocation)
+        for (auto col = row; col < N - row - 1; ++col)
         {
-            std::swap(matrix.at(startLocation.first)[startLocation.second], matrix.at(next.first)[next.second]);
-            current = next;
-            next = GetNextLocation(N,current);
+            auto startLocation = std::make_pair(row, col);
+            auto current = startLocation;
+            auto next = GetNextLocation(N, current);
+            while (next != startLocation)
+            {
+                std::swap(matrix.at(startLocation.first)[startLocation.second], matrix.at(next.first)[next.second]);
+                current = next;
+                next = GetNextLocation(N, current);
+            }
         }
+        row++;
     }
 }
 
@@ -670,4 +680,151 @@ void sortStackWithAnother(std::stack<int> &unsortedStack)
         otherStack.push(topElem);
     }
 }
+
+std::optional<AnimalSheleter::Animal> AnimalSheleter::DequeDog()
+{
+    if (dogs.empty())
+    {
+        return {};
+    }
+    auto firstDog = dogs.front();
+    dogs.pop_front();
+    return firstDog.second;
+}
+std::optional<AnimalSheleter::Animal> AnimalSheleter::DequeCat()
+{
+    if (cats.empty())
+    {
+        return {};
+    }
+    auto firstCat = cats.front();
+    cats.pop_front();
+    return firstCat.second;
+}
+std::optional<AnimalSheleter::Animal> AnimalSheleter::DequeAny()
+{
+    if (dogs.empty())
+    {
+        //a bit of cheating becuase dequeCat checks itself for emptiess.
+        return (DequeCat());
+    }
+
+    if (cats.empty())
+    {
+        return (DequeDog());
+    }
+    if (cats.front().first < dogs.front().first)
+    {
+        return (DequeCat());
+    }
+    else
+    {
+        return (DequeDog());
+    }
+}
+auto GetLastValid(const std::forward_list<std::pair<unsigned int,AnimalSheleter::Animal>> & pets)
+{
+    auto slow= pets.before_begin();
+    if (slow == std::end(pets))
+    {
+        return slow;
+    }
+    auto fast= pets.before_begin();
+    ++fast;
+    while(fast != std::end(pets))
+    {
+        ++fast;
+        ++slow;
+    }
+    return slow;
+}
+void AnimalSheleter::Enque(AnimalSheleter::Animal &&animal)
+{
+        using namespace std::chrono_literals;
+
+    std::this_thread::sleep_for(1000ms);
+    std::time_t result = std::time(nullptr);
+    if (animal.type == AnimalSheleter::AnimalType::CAT)
+    {
+        cats.insert_after(GetLastValid(cats),std::make_pair(result, animal));
+    }
+    else if (animal.type == AnimalSheleter::AnimalType::DOG)
+    {
+        dogs.insert_after(GetLastValid(dogs),std::make_pair(result, animal));
+        
+    }
+}
+
+int MyQueue::dequeInt()
+{
+    return -1;
+    // if (!st.Empty())
+
+    // return 0;
+
+    // stacktoUse = !stacktoUse;
+}
+
+void MyQueue::enqueueInt(int value)
+{
+    // if (sT.empty())
+    // {
+    //     sT.push(value);
+    // }
+    // else if(sF.empty())
+    // {
+    //     sF.push(value);
+    // }
+    // else if (sT.size() > sF.size())
+    // {
+    //     sT.push(value);
+    // }
+    // else if (sF.size() > sT.size())
+    // {
+    //     sF.push(value);
+    // }
+    // else if(stacktoUse)
+    // {
+    //     sT.push(value)
+    // }
+    // else
+    // {
+    //     sF.push(value);
+    // }
+}
+
+void MyQueue::MoveFromStackToStack(std::stack<int> & emptyStack,std::stack<int> & fullStack)
+{
+    while(fullStack.size()>1)
+    {
+        auto v = fullStack.top();
+        emptyStack.push(v);
+        fullStack.pop();
+    }
+}
+#pragma endregion
+
+
+
+
+
+#pragma region Chapter 5 - bitManipulations
+
+unsigned int countSetBits(unsigned int n) 
+{ 
+  unsigned int count = 0; 
+  while (n) 
+  { 
+    count += n & 1; 
+    n >>= 1; 
+  } 
+  return count; 
+} 
+
+int bitsToflip(int a, int b)
+{
+
+    return countSetBits(a^b);
+}
+
 #pragma endregion

@@ -2,6 +2,7 @@
 #include <forward_list>
 #include <vector>
 #include <stack>
+#include <optional>
 
 [[nodiscard]] bool isUniqueWithSet(const std::string & str);
 [[nodiscard]] bool isUniqueNoExtraDS(const std::string & str);
@@ -63,3 +64,43 @@ class SelfRegulatingStack
     std::size_t StackMaxSize{5};
     std::stack<std::stack<int>> stack_of_stacks;
 };
+
+
+
+class MyQueue
+{
+public:
+int dequeInt();
+void enqueueInt(int value);
+private:
+std::stack<int> sT;
+std::stack<int> sF;
+bool stacktoUse;
+void MoveFromStackToStack(std::stack<int> & emptyStack,std::stack<int> & fullStack);
+
+};
+
+class AnimalSheleter
+{
+public:
+enum class AnimalType
+{
+    CAT,
+    DOG
+};
+struct Animal{
+    std::string name;
+    AnimalType type;
+};
+
+std::optional<Animal> DequeDog();
+std::optional<Animal> DequeCat();
+std::optional<Animal> DequeAny();
+void Enque(Animal && animal);
+private:
+std::forward_list<std::pair<unsigned int,Animal>> dogs;
+std::forward_list<std::pair<unsigned int,Animal>> cats;
+
+};
+
+int bitsToflip(int a, int b);
