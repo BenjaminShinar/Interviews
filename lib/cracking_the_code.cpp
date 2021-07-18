@@ -322,16 +322,31 @@ std::optional<std::string> CompressStringIfNeeded(const std::string &str)
     return ((str1.length() == str2.length()) && isRotationOneSubstringImpl(str1, str2));
 }
 
+
+[[nodiscard]] std::pair<unsigned int, unsigned int> GetNextLocation(const std::size_t N,std::pair<unsigned int, unsigned int> current)
+{
+    return std::make_pair(current.second,N-current.first -1);
+}
 /**
  * @brief 
  * rotate matrix N by N by 90 degrees.
  * @param matrix 
  */
-void rotateMatrix90Deg(std::vector<std::vector<int>> & matrix)
+void rotateMatrix90Deg(std::vector<std::vector<int>> &matrix)
 {
     const auto N = matrix.size();
-    auto nextPosition = [&N](int r, int c){return std::make_pair(N-c,N-r);};
-    
+    for (auto i = 0u; i < N-1; ++i)
+    {
+        auto startLocation = std::make_pair(0u, i);
+        auto current = startLocation;
+        auto next = GetNextLocation(N,current);
+        while (next != startLocation)
+        {
+            std::swap(matrix.at(startLocation.first)[startLocation.second], matrix.at(next.first)[next.second]);
+            current = next;
+            next = GetNextLocation(N,current);
+        }
+    }
 }
 
 #pragma endregion
@@ -639,20 +654,20 @@ SelfRegulatingStack SelfRegulatingStack::Create(std::size_t size, std::initializ
 
 void sortStackWithAnother(std::stack<int> &unsortedStack)
 {
-    if (unsortedStack.empty() || unsortedStack.size()==1) return;
+    if (unsortedStack.empty() || unsortedStack.size() == 1)
+        return;
     auto max = unsortedStack.top();
     unsortedStack.pop();
     std::stack<int> otherStack;
     while (!unsortedStack.empty())
     {
-        auto topElem= unsortedStack.top();
+        auto topElem = unsortedStack.top();
         unsortedStack.pop();
-        if (max> topElem)
+        if (max > topElem)
         {
-            std::swap(topElem,max);
+            std::swap(topElem, max);
         }
         otherStack.push(topElem);
     }
-
 }
 #pragma endregion
