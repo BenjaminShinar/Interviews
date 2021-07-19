@@ -12,6 +12,7 @@
 #include <ctime>
 #include <chrono>
 #include <thread>
+#include <cmath>
 #pragma region Chapter 1 - Arrays and String
 
 /**
@@ -827,4 +828,47 @@ int bitsToflip(int a, int b)
     return countSetBits(a^b);
 }
 
+#pragma endregion
+
+
+#pragma region Chapter 6 - Math and Logic puzzles
+
+int HeavyBottle20(int k)
+{
+    double sum = 0;
+    auto normalWeight = 10;
+    auto havyWeight = 11;
+    double expectedWeight =normalWeight* 20 * (1+20)/2;
+    for (auto i = 1; i <=20;++i)
+    {
+        auto weight = (i==k) ?havyWeight : normalWeight;
+        sum += (i*weight);
+    }
+
+    return (sum - expectedWeight)/(havyWeight-normalWeight);
+}
+
+bool BetterOneThrow(double prob)
+{
+    auto combinnations = 3;
+        double threeShots = std::pow(prob,3) 
+         + combinnations*(std::pow(prob,2)*(1.0-prob));
+
+    return prob > threeShots;
+}
+
+std::bitset<128> flipLockers()
+{
+    std::bitset<128> lockers{0};
+    
+    for(auto step =1 ; step <128; ++step)
+    {
+        for (auto i = step-1;i< 128;i+=step)
+        {
+            lockers.flip(i);
+        }
+
+    }
+    return lockers;
+}
 #pragma endregion

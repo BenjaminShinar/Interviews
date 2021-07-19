@@ -367,6 +367,64 @@ void TestBitsToFlip()
 
 }
 #pragma endregion
+
+#pragma region Chapter 6 - Math and Logic puzzles
+namespace mathAndLogic
+{
+    void TestFindHeavyBottle()
+    {
+        auto foo =[](int K)
+        {
+            int matched = HeavyBottle20(K);
+            std::cout << std::boolalpha;
+            //auto flipped = bitsToflip(n1,n2);
+            std::cout << "when " << K <<" bottle is heavier, we matched " << matched << " as expeted? " << (matched == K);
+            std::cout << std::noboolalpha << '\n';
+        };
+        for (int i =1 ; i <= 20; ++i)
+        {
+            foo(i);
+        }
+    }
+
+    void TestBetterOneThrow()
+    {
+        auto foo =[](double prob)
+        {
+            auto better  = BetterOneThrow(prob) ? "one Throw" : "three throws";
+            std::cout << std::boolalpha;
+            //auto flipped = bitsToflip(n1,n2);
+            std::cout << "when probabilty is " << prob << " the higher chance is to take " << better;
+            std::cout << std::noboolalpha << '\n';
+        };
+        for (auto p =0.45 ; p < 0.55; p+=0.01)
+        {
+            foo(p);
+        }
+    }
+
+    void TestFlippedLockers()
+    {
+        auto lockers =flipLockers();
+        for (auto i =0; i<100;++i)
+        {
+            if (lockers.test(i))
+            {
+                std::cout << "locker at index " << (i+1) << " is open" <<'\n';
+            }
+        }
+
+    }
+    void TestAll()
+    {
+        //TestFindHeavyBottle();
+        //TestBetterOneThrow();
+        TestFlippedLockers();
+    }
+
+}
+#pragma endregion
+
 int main()
 {
     {
@@ -401,9 +459,12 @@ int main()
 
 {
     using namespace bitManip;
-    TestBitsToFlip();
+    //TestBitsToFlip();
 
 }
+
+    mathAndLogic::TestAll();
+    
 
     // std::vector<std::vector<int>> a{{1,2},{3,4}};
     // std::vector<std::vector<int>> b{{1,2},{3,4}};

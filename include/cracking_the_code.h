@@ -3,6 +3,7 @@
 #include <vector>
 #include <stack>
 #include <optional>
+#include <bitset>
 
 [[nodiscard]] bool isUniqueWithSet(const std::string & str);
 [[nodiscard]] bool isUniqueNoExtraDS(const std::string & str);
@@ -104,3 +105,9 @@ std::forward_list<std::pair<unsigned int,Animal>> cats;
 };
 
 int bitsToflip(int a, int b);
+
+
+
+int HeavyBottle20(int k);
+bool BetterOneThrow(double prob);
+std::bitset<128> flipLockers();
