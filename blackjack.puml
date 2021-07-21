@@ -1,0 +1,51 @@
+@startuml BlackJack
+
+interface IPlayer
+{
+Hands
+Hit()
+Stand()
+Bust()
+}
+
+interface IEnforcer
+{
+    FirstDeal()
+    DealOpenCard()
+
+}
+
+entity Game{
+    Cards
+}
+
+entity Dealer extends IPlayer,IEnforcer{
+
+}
+note right of Dealer: dealer is a player with behavior set in store \n also acts as the 'game' enforcer
+
+entity Player extends IPlayer{
+    Split()
+    Double()
+    Surrender() 
+
+}
+entity Hand{
+    FaceDownCard
+    FaceUpCards
+    Bust()
+    Hit()
+}
+entity Card{
+    Value
+}
+Game ||..|{ IPlayer
+Game ||..|| IEnforcer
+
+Dealer ||..|{ Hand
+Player ||..|{ Hand
+Player ||..|{ Hand
+
+Hand ||..|{ Card
+Game ||..|{ Card
+@enduml

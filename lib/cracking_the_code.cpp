@@ -13,6 +13,7 @@
 #include <chrono>
 #include <thread>
 #include <cmath>
+#include <numeric>
 #pragma region Chapter 1 - Arrays and String
 
 /**
@@ -870,5 +871,46 @@ std::bitset<128> flipLockers()
 
     }
     return lockers;
+}
+#pragma endregion
+
+
+
+
+#pragma region Chapter 8 -  Recursion and Dynamic Programming
+
+[[nodiscard]] std::size_t trippleStepsRec(std::size_t floors)
+{
+    if (floors <=2)
+    {
+        return floors;
+    }
+    else if (floors == 3)
+    {
+        return 1 +trippleStepsRec(floors-1) +trippleStepsRec(floors-2);
+    }
+    return trippleStepsRec(floors-3) +trippleStepsRec(floors-1) +trippleStepsRec(floors-2);
+}
+
+[[nodiscard]] std::size_t trippleSteps(std::size_t floors)
+{
+
+    if (floors <=3)
+    {
+        return 0b1<<(floors-1);
+    }
+    std::vector<std::size_t> v{1,2,4};
+
+    auto f1{1};
+    auto f2{2};
+    auto f3{4};
+for (auto n = 3; n< floors;++n)
+{
+    auto t = std::accumulate(std::end(v)-3,std::end(v),0);
+    v.push_back(t);
+
+}
+
+    return v.back();
 }
 #pragma endregion

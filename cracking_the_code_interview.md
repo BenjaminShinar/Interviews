@@ -156,9 +156,6 @@ the ants will colide if one of them chooses a differnt direction than the others
     - mean is 1/0.5 = 2 kids per family, so ratio is 1:1
 8. egg drop algorithem
     - i know it's about 14, but not sure why...
-    ```
-
-    ```
 9. 100 lockers - flip lockers that are mulitples of 1..N
     - i think this ends with 1, and any squared value of a prime.
     - all primes are on (by 1) and then off (by themselves)
@@ -167,31 +164,88 @@ the ants will colide if one of them chooses a differnt direction than the others
 10. find poison bottle from  1000 bottles using 10 strips that detect poison after 7 days.
     - relevent! look up corona pooling
     - stupid way: check half, wait a week,
-    - check half of the poison suit, wait another week
-    - 1000,500,250,125,64,32,16,8,4,2,1 - binary search. wastes too much time.
+        - check half of the poison suit, wait another week
+        - 1000,500,250,125,64,32,16,8,4,2,1 - binary search. wastes too much time.
     - if we had one strip, we had to wait 1000 + 7 days to be sure. with one strip, we need N+7 tries.
     - if we have two strips, we can put p1,p2 on s1, p2,p3 on s2. if s1 and !s2 = p1, if s1 and s2 = p2, if !s1 and s2= p3.
     - can we expand this?
-    - what if we dedicated one strip to poison groups (by day). everyday we test some amount of bottles, which we spread over the other slabs.
+        - for 3 strips: one unique poison for each (x1,x2,x3), three posions for each combinations (x12,x23,x13) and one for all three(x123) = total of seven checks =
+    3c3 + 3c2 + 3c1 = 7.
+        - for 4 strips? expected:4c4 + 4c3 +4c2 +4c1 = 1 + 4 +6 +4 = 15. (x1,x2,x3,x4)(x12,x13,x14,x23,x24,x34)(x123,x124,x134,x234)(x1234)
+        - for ten strips? sum (10c[1..10]), excel says 1023, formula says **2 ^n -1** so (2^10) -1 = 1024 -1 = 1023.
+    - this means that we just need to divide the poisions properly and we will get the results in one week exactly!
+    - youtube has a different method of using powers of 2. i'm guessing it's the same core idea. assign each prisoner with a binary location, and have him drink all the bottles with the bit on in their number. then i take all the dead prisoners on bit and get the bottle number.
+
 
 
 
 ### Chapter 7: Object Oriented Design
-1. Deck of cards
-2. Call Center
+#### Approch
+six W's: Who, What, Where, When, How, Why
+core objects (entities) and relationships (one to one, one to many, many to many).
+actions between the core objects.
+design patterns:
+- singleton
+- factory
+
+1. Deck of cards - black jack game - get 21.
+- objects:game, cards (how many decks in play?), players, dealer, hand.
+- relantioships: one game, with one dealer, N players, Q cards. each player has One or more hands (splitting)
+- actions dealing cards, standing the hand, splitting the hand, hitting, doubling, or busting.
+- are dealers a type of players? do they have stuff in common?
+
+2. Call Center -three levels, 
+- dispatchCall(call, escaltionLevel) - a singletone class (CallCenterCommand) gets the call and dispatches it according to the level.
+- all levels of employees can escalate a call, by returnning it to the CallCenterCommand with the increased escalation level.
+- the CallCenterCommand matches calls by looking at the escalation level and starting it's search from that level. if no employees of this level ara availble, it will search in the higher locations. if possible, allow for 'hold call' method that either waits for N seconds for a call to end or subscribes to some synchronization method to attach itself to the next availble employee.
 3. Jukebox
+- machine
+- payment
+- selection
+- record
+- song
 4. parking lot
 5. online book reader
-6. jigsaw puzzle
+6. jigsaw puzzle - this is interesting
+- puzzle piece has edges?
+- puzzle edge.
+- bool fitsWith(PuzzleEdge edge1,PuzzleEdge edge2)
+- if we put together two pieces, are they a new class or are they still a puzzle piece with transformed edges?
+- how do I define the space which has two connected pieces? the empty space that has some edges in place and some missing? this needs to be updated at each connection.
+- this is some adavcened Data structure, maybe a graph? maybe we graph the missing parts instead of the existing parts? 
+- when connected to edge, the old piece is parent, so go in ניצב' then the connection side, if, check connection, if we can go again and back, also check that?
+- maybe linkedList? 
+
 7. chatserver
 8. othello
 9. circular array
 10. mineSweeper
+- populate board
+- expose - iterative/recursive.
+- when cell is clicked, if bomb, lose. else, mark as exposed.if value = 0 take none exposed cells surronding them, whichever, expose them. if they are 0, put it sack put in stack. take element from stack (must be 0 value) and expost all it's neighbors like before. if element is not zero, don't push it's neighbors to a stack.
+- have a flag to denote 'not exposed' that disallows expoisng?
+- win conditions - number of unexposed is the same as mines.
+- board object, has squares (cells)
+- cell object - has either a bomb or a number,can be exposed or not exposed. maybe also flag?
+- don't forget about bounderies!
+
 11. file system
 12. hash table with linked lists to handle collisions.
 
 ### Chapter 8: Recursion and Dynamic Programming
 1. tripple steps
+- first try simple recursion!
+    - at N-1: 1 options - > take one step.
+    - at N-2: 2 options - > take two steps, or take one + N-1;
+    - at N-3: 4 options - >take three steps, take two steps and then (N-1) = 1, take one step and then N(-2) =2. 1 + 1 +2 = 4 options.
+    - at N-4: N-3(one step) + N-2 (two steps) N-1 (three steps) =  4 +2 +1 = 7
+    - at N-5: N-4(one step) + N-3 (two steps) N-2 (three steps)
+    = 7 +4 +2 = 13
+    - at N-6: N-5(one step) + N-4 (two steps) N-3 (three steps)
+    = 13 + 7 +4 = 24.
+    - 24 + 13 +7 = 44.
+    - 44 + 24 + 13 =81
+- this obviously is a bad idea. but what can we do instead?
 2. robot on a grid
 3. find magic index in a sorted array
 4. all subsets of a set

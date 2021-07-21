@@ -111,3 +111,6 @@ int bitsToflip(int a, int b);
 int HeavyBottle20(int k);
 bool BetterOneThrow(double prob);
 std::bitset<128> flipLockers();
+
+[[nodiscard]] std::size_t trippleStepsRec(std::size_t floors);
+[[nodiscard]] std::size_t trippleSteps(std::size_t floors);

@@ -344,26 +344,25 @@ namespace stacksAndQueues
 }
 #pragma endregion
 
-
 #pragma region Chapter 5 - Bit Manipulation
 namespace bitManip
 {
-void TestBitsToFlip()
-{
-    auto foo =[](int n1, int n2, int e)
+    void TestBitsToFlip()
     {
+        auto foo = [](int n1, int n2, int e)
+        {
             std::cout << std::boolalpha;
-            auto flipped = bitsToflip(n1,n2);
+            auto flipped = bitsToflip(n1, n2);
             std::cout << n1 << " to " << n2 << " required " << flipped << " flips, as expected? " << (e == flipped);
             std::cout << std::noboolalpha << '\n';
-    };
-    foo(29,15,2);
-    foo(28,14,2);
-    foo(0b1000,0b1101,2);
-    foo(0b1010,0b1001,2);
-    foo(0b1010,0b1011,1);
-    foo(0b1010,0b1010,0);
-}
+        };
+        foo(29, 15, 2);
+        foo(28, 14, 2);
+        foo(0b1000, 0b1101, 2);
+        foo(0b1010, 0b1001, 2);
+        foo(0b1010, 0b1011, 1);
+        foo(0b1010, 0b1010, 0);
+    }
 
 }
 #pragma endregion
@@ -373,15 +372,15 @@ namespace mathAndLogic
 {
     void TestFindHeavyBottle()
     {
-        auto foo =[](int K)
+        auto foo = [](int K)
         {
             int matched = HeavyBottle20(K);
             std::cout << std::boolalpha;
             //auto flipped = bitsToflip(n1,n2);
-            std::cout << "when " << K <<" bottle is heavier, we matched " << matched << " as expeted? " << (matched == K);
+            std::cout << "when " << K << " bottle is heavier, we matched " << matched << " as expeted? " << (matched == K);
             std::cout << std::noboolalpha << '\n';
         };
-        for (int i =1 ; i <= 20; ++i)
+        for (int i = 1; i <= 20; ++i)
         {
             foo(i);
         }
@@ -389,15 +388,15 @@ namespace mathAndLogic
 
     void TestBetterOneThrow()
     {
-        auto foo =[](double prob)
+        auto foo = [](double prob)
         {
-            auto better  = BetterOneThrow(prob) ? "one Throw" : "three throws";
+            auto better = BetterOneThrow(prob) ? "one Throw" : "three throws";
             std::cout << std::boolalpha;
             //auto flipped = bitsToflip(n1,n2);
             std::cout << "when probabilty is " << prob << " the higher chance is to take " << better;
             std::cout << std::noboolalpha << '\n';
         };
-        for (auto p =0.45 ; p < 0.55; p+=0.01)
+        for (auto p = 0.45; p < 0.55; p += 0.01)
         {
             foo(p);
         }
@@ -405,15 +404,14 @@ namespace mathAndLogic
 
     void TestFlippedLockers()
     {
-        auto lockers =flipLockers();
-        for (auto i =0; i<100;++i)
+        auto lockers = flipLockers();
+        for (auto i = 0; i < 100; ++i)
         {
             if (lockers.test(i))
             {
-                std::cout << "locker at index " << (i+1) << " is open" <<'\n';
+                std::cout << "locker at index " << (i + 1) << " is open" << '\n';
             }
         }
-
     }
     void TestAll()
     {
@@ -422,6 +420,38 @@ namespace mathAndLogic
         TestFlippedLockers();
     }
 
+}
+#pragma endregion
+
+#pragma region Chapter 8 - Recursion and Dynamic Programming
+namespace recursionAndDynamic
+{
+    void TrippleStep()
+    {
+        auto foo = [](std::size_t f)
+        {
+            std::cout << std::boolalpha;
+            auto stepsIter = trippleSteps(f);
+            auto stepsRec = trippleStepsRec(f);
+
+            std::cout <<" recursive " << stepsRec << " from floor " << f;
+            std::cout <<" iterative " << stepsIter << " from floor " << f;
+            std::cout <<" are same?? " << (stepsIter == stepsRec);
+            std::cout << std::noboolalpha << '\n';
+        };
+        foo(1);
+        foo(2);
+        foo(3);
+        foo(4);
+        foo(5);
+        foo(6);
+        foo(7);
+        foo(8);
+    }
+    void TestAll()
+    {
+        TrippleStep();
+    }
 }
 #pragma endregion
 
@@ -457,14 +487,14 @@ int main()
         //TestMyQueue();
     }
 
-{
-    using namespace bitManip;
-    //TestBitsToFlip();
+    {
+        using namespace bitManip;
+        //TestBitsToFlip();
+    }
 
-}
+    //mathAndLogic::TestAll();
 
-    mathAndLogic::TestAll();
-    
+    recursionAndDynamic::TestAll();
 
     // std::vector<std::vector<int>> a{{1,2},{3,4}};
     // std::vector<std::vector<int>> b{{1,2},{3,4}};
