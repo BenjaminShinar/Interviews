@@ -4,6 +4,7 @@
 #include <stack>
 #include <optional>
 #include <bitset>
+#include <set>
 
 [[nodiscard]] bool isUniqueWithSet(const std::string & str);
 [[nodiscard]] bool isUniqueNoExtraDS(const std::string & str);
@@ -114,3 +115,5 @@ std::bitset<128> flipLockers();
 
 [[nodiscard]] std::size_t trippleStepsRec(std::size_t floors);
 [[nodiscard]] std::size_t trippleSteps(std::size_t floors);
+
+void printPowerSet(std::set<int> & s);

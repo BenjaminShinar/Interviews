@@ -246,9 +246,15 @@ design patterns:
     - 24 + 13 +7 = 44.
     - 44 + 24 + 13 =81
 - this obviously is a bad idea. but what can we do instead?
+- memoization like fibonachi question, i guess
 2. robot on a grid
+    memoeization, iterative, whatver
 3. find magic index in a sorted array
+- why is this dynamic/recustion?
+- just do binary search or something.choose number x between bottom, top, check a[x], if it's lower than x, get x in value [x,top], if higher, [bottom,x], continue until match or top and bottom are equal or something like that.
 4. all subsets of a set
+- yikes. if we simply remove an element,recurse on ourseleves and return it in, we'll have duplications.
+- make other set S2, iterate over set 1, add to element to s2 and print s2, after that, add an element from s1 to s2. start again. 
 5. recursive multiply
 6. hannoi towers
 7. permutations of unique items

@@ -3,6 +3,8 @@
 #include <memory>
 #include <cstring>
 #include <iterator>
+
+
 #include "../include/cracking_the_code.h"
 
 #pragma region Chapter 1 - Arrays and String
@@ -447,10 +449,28 @@ namespace recursionAndDynamic
         foo(6);
         foo(7);
         foo(8);
+        foo(10);
+
+        std::cout << " for 100 steps? "  << trippleSteps(100) <<'\n';
+    }
+
+
+    void TestPowerSet()
+    {
+        auto foo = [](std::set<int> && set)
+        {
+            std::cout <<'\n';
+            printPowerSet(set);
+        };
+
+        foo({1,2});
+        foo({4,5,6});
+
     }
     void TestAll()
     {
-        TrippleStep();
+        //TrippleStep();
+        TestPowerSet();
     }
 }
 #pragma endregion

@@ -899,18 +899,47 @@ std::bitset<128> flipLockers()
     {
         return 0b1<<(floors-1);
     }
-    std::vector<std::size_t> v{1,2,4};
 
     auto f1{1};
     auto f2{2};
     auto f3{4};
 for (auto n = 3; n< floors;++n)
 {
-    auto t = std::accumulate(std::end(v)-3,std::end(v),0);
-    v.push_back(t);
-
+    auto t = f1+f2+f3;
+    f1 = f2;
+    f2 = f3;
+    f3= t;
 }
 
-    return v.back();
+    return f3;
+}
+void printSet(const std::set<int> & s)
+{
+    for (auto e : s)
+    {
+        std::cout << e <<',';
+    }
+    std::cout<<'\n';
+}
+void printPowerSet(std::set<int> & s)
+{
+    //not working properly
+
+    std::set<int> s2;
+    while (!s.empty())
+    {
+        for (auto e : s)
+        {
+            auto iter2 = s2.insert(e);
+            printSet(s2);
+            s2.erase(iter2.first);
+        }
+
+        auto iter = s.begin();
+        auto elem = *iter;
+        s2.insert(elem);
+        s.erase(iter);
+
+    }
 }
 #pragma endregion
