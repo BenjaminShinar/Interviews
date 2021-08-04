@@ -117,3 +117,5 @@ std::bitset<128> flipLockers();
 [[nodiscard]] std::size_t trippleSteps(std::size_t floors);
 
 void printPowerSet(std::set<int> & s);
+[[nodiscard]] std::size_t MultiplyA(std::size_t a,std::size_t b);
+[[nodiscard]] std::size_t MultiplyB(std::size_t a,std::size_t b);

@@ -129,7 +129,7 @@ p > (p^3)+(3c2*(p^2)*(1-p))
 3. cover board with dominos
     - there are now 62 squares on the board, with 31 blocks of 2 to cover them.
     - from before *I know this is impposible,*
-    - number of squares should be divisible by 4? no, becuase 3 * 4 square is fine.
+    - number of squares should be divisible by 4? no, because 3 * 4 square is fine.
     - also not (N-1)*(M-1) is even becuase 3 * 15 is bad.
     - maybe (N+M - 3) % 2 == 0?
     - checked wikipedia- it's because we are covering the same color of squares, so it's impossible. a domino piece must cover black and white squares, so we'll always be missing squares.
@@ -169,7 +169,7 @@ the ants will colide if one of them chooses a differnt direction than the others
     - if we had one strip, we had to wait 1000 + 7 days to be sure. with one strip, we need N+7 tries.
     - if we have two strips, we can put p1,p2 on s1, p2,p3 on s2. if s1 and !s2 = p1, if s1 and s2 = p2, if !s1 and s2= p3.
     - can we expand this?
-        - for 3 strips: one unique poison for each (x1,x2,x3), three posions for each combinations (x12,x23,x13) and one for all three(x123) = total of seven checks =
+        - for 3 strips: one unique poison for each (x1,x2,x3), three poisons for each combinations (x12,x23,x13) and one for all three(x123) = total of seven checks =
     3c3 + 3c2 + 3c1 = 7.
         - for 4 strips? expected:4c4 + 4c3 +4c2 +4c1 = 1 + 4 +6 +4 = 15. (x1,x2,x3,x4)(x12,x13,x14,x23,x24,x34)(x123,x124,x134,x234)(x1234)
         - for ten strips? sum (10c[1..10]), excel says 1023, formula says **2 ^n -1** so (2^10) -1 = 1024 -1 = 1023.
@@ -255,13 +255,18 @@ design patterns:
 4. all subsets of a set
 - yikes. if we simply remove an element,recurse on ourseleves and return it in, we'll have duplications.
 - make other set S2, iterate over set 1, add to element to s2 and print s2, after that, add an element from s1 to s2. start again. 
-5. recursive multiply
+5. recursive multiply of (N*M) positive, natural numbers only.
+    - add N to itself M times
+    - better: if M is even (m % 2==0), shift left the product, and shift right M, then continue.
 6. hannoi towers
 7. permutations of unique items
 8. permutations with duplications removal
 9. parenthesis validation
+- use stack, add openning parntheses, if meeting closing parntheses, check it against the top of the stack, if matching remove,else error. if finished and the stack has something, error.
 10. paintfill
 11. reprsents N with different coins
+- feels like dynamic programming. we create maps (coin:amount) and take unique
+- nickels:5 cents, dimes: 10 cents, quarter:25 cents
 12. eight queens
 13. stack of boxes
 14. boolean evaluation count ways of parnthesisng expression
@@ -272,6 +277,7 @@ design patterns:
 2. social network
 3. web Crawler
 4. detect duplicate urls
+- maybe trie tree?
 5. cache
 6. sales rank
 7. personal financial manager
@@ -306,16 +312,22 @@ for (i=100; i >=0;--i)
 
 ### Chapter 12: C and C++
 1. Last K Lines from file
+- maybe keep a K sized circular vector of offsets/positions, and when we reach the EOF, we can fseek back and start reading
 2. reverse null terminated string
+- go to the end, place ptr in the end and in the start, start swapping until meeting/passing
 3. hash table vs stl map
 4. how do virtual functions work
 5. shallow vs deep copy
 6. voltaile
 7. why must we have a virtuall destrctor in the base class
+- when deleting through a baseclass pointer.
 8. copy node
 9. smart ptr with refernce counting
 10. malloc aligned to power of 2. free() without parameters
+- request 1000+128 (maybe +1?) bytes, imediatly before the data that we give to the user, write an offset to the real start of the data.
+- when trying to free,look up before the data for the offset, and then free from that point. 
 11. 2d alloc of m,n that returns 2d array with [][] syntax
+- calculate the amount needed and request it in one malloc, and then cast it as pointer of the correct type.
 
 ### Chapter 13: Java
 1. using private ctor in inheritance
@@ -327,7 +339,12 @@ for (i=100; i >=0;--i)
 4. c++ templates vs java generics
     - c++ is compile time, they appear in the compiled code differntly for each type. generics are synthetic sugar that remove the need to remember the casting operations. the function uses the Object object.
 5. TreeMap, HashMap,LinkedHashMap differnces
+- hashMap: quick retrival, 
+- tree map
+- linkedHashMap: probably fast insertion, slow retrival
 6. object reflection
+- query the Class object and the object itself to identify it's behavior.
+- good for runtime generics.
 7. lambda expression
 8. lambda random
 

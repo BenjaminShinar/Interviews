@@ -428,7 +428,7 @@ namespace mathAndLogic
 #pragma region Chapter 8 - Recursion and Dynamic Programming
 namespace recursionAndDynamic
 {
-    void TrippleStep()
+    void TestTrippleStep()
     {
         auto foo = [](std::size_t f)
         {
@@ -467,10 +467,28 @@ namespace recursionAndDynamic
         foo({4,5,6});
 
     }
+
+    void TestMultiplyIntegers()
+    {
+        auto foo = [](std::size_t a,std::size_t b)
+        {
+            std::cout << std::boolalpha;
+            auto res = a*b;
+            auto ares = MultiplyA(a,b);
+            auto bres = MultiplyB(a,b);
+            std::cout <<a <<" * " <<b <<" = " <<res <<". " << ares<< " : " << bres <<" are same?? " << (ares == res && bres==ares);
+            std::cout << std::noboolalpha << '\n';
+        };
+        foo(1,5);
+        foo(10,2);
+        foo(37,7);
+        foo(41,9);
+    }
     void TestAll()
     {
-        //TrippleStep();
-        TestPowerSet();
+        //TestTrippleStep();
+        //TestPowerSet();
+        TestMultiplyIntegers();
     }
 }
 #pragma endregion

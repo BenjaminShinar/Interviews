@@ -724,16 +724,16 @@ std::optional<AnimalSheleter::Animal> AnimalSheleter::DequeAny()
         return (DequeDog());
     }
 }
-auto GetLastValid(const std::forward_list<std::pair<unsigned int,AnimalSheleter::Animal>> & pets)
+auto GetLastValid(const std::forward_list<std::pair<unsigned int, AnimalSheleter::Animal>> &pets)
 {
-    auto slow= pets.before_begin();
+    auto slow = pets.before_begin();
     if (slow == std::end(pets))
     {
         return slow;
     }
-    auto fast= pets.before_begin();
+    auto fast = pets.before_begin();
     ++fast;
-    while(fast != std::end(pets))
+    while (fast != std::end(pets))
     {
         ++fast;
         ++slow;
@@ -742,18 +742,17 @@ auto GetLastValid(const std::forward_list<std::pair<unsigned int,AnimalSheleter:
 }
 void AnimalSheleter::Enque(AnimalSheleter::Animal &&animal)
 {
-        using namespace std::chrono_literals;
+    using namespace std::chrono_literals;
 
     std::this_thread::sleep_for(1000ms);
     std::time_t result = std::time(nullptr);
     if (animal.type == AnimalSheleter::AnimalType::CAT)
     {
-        cats.insert_after(GetLastValid(cats),std::make_pair(result, animal));
+        cats.insert_after(GetLastValid(cats), std::make_pair(result, animal));
     }
     else if (animal.type == AnimalSheleter::AnimalType::DOG)
     {
-        dogs.insert_after(GetLastValid(dogs),std::make_pair(result, animal));
-        
+        dogs.insert_after(GetLastValid(dogs), std::make_pair(result, animal));
     }
 }
 
@@ -795,9 +794,9 @@ void MyQueue::enqueueInt(int value)
     // }
 }
 
-void MyQueue::MoveFromStackToStack(std::stack<int> & emptyStack,std::stack<int> & fullStack)
+void MyQueue::MoveFromStackToStack(std::stack<int> &emptyStack, std::stack<int> &fullStack)
 {
-    while(fullStack.size()>1)
+    while (fullStack.size() > 1)
     {
         auto v = fullStack.top();
         emptyStack.push(v);
@@ -806,31 +805,26 @@ void MyQueue::MoveFromStackToStack(std::stack<int> & emptyStack,std::stack<int> 
 }
 #pragma endregion
 
-
-
-
-
 #pragma region Chapter 5 - bitManipulations
 
-unsigned int countSetBits(unsigned int n) 
-{ 
-  unsigned int count = 0; 
-  while (n) 
-  { 
-    count += n & 1; 
-    n >>= 1; 
-  } 
-  return count; 
-} 
+unsigned int countSetBits(unsigned int n)
+{
+    unsigned int count = 0;
+    while (n)
+    {
+        count += n & 1;
+        n >>= 1;
+    }
+    return count;
+}
 
 int bitsToflip(int a, int b)
 {
 
-    return countSetBits(a^b);
+    return countSetBits(a ^ b);
 }
 
 #pragma endregion
-
 
 #pragma region Chapter 6 - Math and Logic puzzles
 
@@ -839,21 +833,20 @@ int HeavyBottle20(int k)
     double sum = 0;
     auto normalWeight = 10;
     auto havyWeight = 11;
-    double expectedWeight =normalWeight* 20 * (1+20)/2;
-    for (auto i = 1; i <=20;++i)
+    double expectedWeight = normalWeight * 20 * (1 + 20) / 2;
+    for (auto i = 1; i <= 20; ++i)
     {
-        auto weight = (i==k) ?havyWeight : normalWeight;
-        sum += (i*weight);
+        auto weight = (i == k) ? havyWeight : normalWeight;
+        sum += (i * weight);
     }
 
-    return (sum - expectedWeight)/(havyWeight-normalWeight);
+    return (sum - expectedWeight) / (havyWeight - normalWeight);
 }
 
 bool BetterOneThrow(double prob)
 {
     auto combinnations = 3;
-        double threeShots = std::pow(prob,3) 
-         + combinnations*(std::pow(prob,2)*(1.0-prob));
+    double threeShots = std::pow(prob, 3) + combinnations * (std::pow(prob, 2) * (1.0 - prob));
 
     return prob > threeShots;
 }
@@ -861,67 +854,63 @@ bool BetterOneThrow(double prob)
 std::bitset<128> flipLockers()
 {
     std::bitset<128> lockers{0};
-    
-    for(auto step =1 ; step <128; ++step)
+
+    for (auto step = 1; step < 128; ++step)
     {
-        for (auto i = step-1;i< 128;i+=step)
+        for (auto i = step - 1; i < 128; i += step)
         {
             lockers.flip(i);
         }
-
     }
     return lockers;
 }
 #pragma endregion
 
-
-
-
-#pragma region Chapter 8 -  Recursion and Dynamic Programming
+#pragma region Chapter 8 - Recursion and Dynamic Programming
 
 [[nodiscard]] std::size_t trippleStepsRec(std::size_t floors)
 {
-    if (floors <=2)
+    if (floors <= 2)
     {
         return floors;
     }
     else if (floors == 3)
     {
-        return 1 +trippleStepsRec(floors-1) +trippleStepsRec(floors-2);
+        return 1 + trippleStepsRec(floors - 1) + trippleStepsRec(floors - 2);
     }
-    return trippleStepsRec(floors-3) +trippleStepsRec(floors-1) +trippleStepsRec(floors-2);
+    return trippleStepsRec(floors - 3) + trippleStepsRec(floors - 1) + trippleStepsRec(floors - 2);
 }
 
 [[nodiscard]] std::size_t trippleSteps(std::size_t floors)
 {
 
-    if (floors <=3)
+    if (floors <= 3)
     {
-        return 0b1<<(floors-1);
+        return 0b1 << (floors - 1);
     }
 
     auto f1{1};
     auto f2{2};
     auto f3{4};
-for (auto n = 3; n< floors;++n)
-{
-    auto t = f1+f2+f3;
-    f1 = f2;
-    f2 = f3;
-    f3= t;
-}
+    for (auto n = 3; n < floors; ++n)
+    {
+        auto t = f1 + f2 + f3;
+        f1 = f2;
+        f2 = f3;
+        f3 = t;
+    }
 
     return f3;
 }
-void printSet(const std::set<int> & s)
+void printSet(const std::set<int> &s)
 {
     for (auto e : s)
     {
-        std::cout << e <<',';
+        std::cout << e << ',';
     }
-    std::cout<<'\n';
+    std::cout << '\n';
 }
-void printPowerSet(std::set<int> & s)
+void printPowerSet(std::set<int> &s)
 {
     //not working properly
 
@@ -939,7 +928,36 @@ void printPowerSet(std::set<int> & s)
         auto elem = *iter;
         s2.insert(elem);
         s.erase(iter);
-
     }
+}
+
+[[nodiscard]] std::size_t MultiplyA(std::size_t a, std::size_t b)
+{
+    std::size_t product{0};
+    while (b>0)
+    {
+        product+=a;
+        --b;
+    }
+
+    return product;
+}
+[[nodiscard]] std::size_t MultiplyB(std::size_t a, std::size_t b)
+{
+    std::size_t product{0};
+
+    while (b>0)
+    {
+        if (b & 0b1 ==0b0)
+        {
+        b = b>>1;
+        a= a<<1;
+        }
+        else{
+        product+=a;
+        --b;
+        }
+    }
+    return product;
 }
 #pragma endregion

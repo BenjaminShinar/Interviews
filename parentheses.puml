@@ -1,0 +1,16 @@
+@startuml parentheses validation
+[*] --> TakeParentheses
+state failure <<end>>
+state TakeParentheses{
+    
+    addToStack: open parntheses
+    checkStack: closed parntheses
+}
+state endOfString <<choice>>
+
+TakeParentheses --> TakeParentheses : not eof
+TakeParentheses --> endOfString : eof
+TakeParentheses --> failure : unmatched parntheses
+endOfString --> [*] :stack empty
+endOfString --> failure : stack not empty
+@enduml
