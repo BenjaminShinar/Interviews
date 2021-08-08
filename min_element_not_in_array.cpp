@@ -12,7 +12,7 @@ int MinElement(const std::vector<int> &vec)
     for (auto element : vec)
     {
         std::cout << " checking element " << element <<'\n';
-        if (element > 0)
+        if (element > 0) 
         {
             for (auto it = std::begin(ranges); it != std::end(ranges); it = std::next(it))
             {
