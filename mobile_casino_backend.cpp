@@ -6,7 +6,7 @@
 a Company that makes mobile games. three tasks in codility;
 1. find bug in program that gets the smallest element;
 2. find largest possible square to make from two sticks - can we get 4 equal parts size;
-3.
+3. word machine on stack of integers: shunty hall calculator. dup and pop. failed finishing this.
 
 
 */
