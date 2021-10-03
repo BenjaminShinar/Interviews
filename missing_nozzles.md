@@ -55,6 +55,7 @@ The **missing nozzles helper** component controls operations relating to mediati
 - Builder - we separated the construction/storage/retrieval logic from the usage logic.
 - Adapter/Facade - transform the different forms of incoming data into a common form. account for missing data (from UI) but still use the same behavior.
 - Memento - eventually, we could restore the state of the system back to a different time (not perfect example).
+- CRTP (curios recursive template pattern) - save some typing, reduce some duplication in derived class.
 
 ## My contribution
 
